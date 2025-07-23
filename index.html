@@ -4,112 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jornada Criativa - Compartilhe sua História</title>
-
     <style>
-        /* --- Reset Básico e Estilos Globais --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* --- Estilos Globais e Layout --- */
+        :root {
+            --cor-principal: #f59e0b;
+            --cor-fundo: #f3f4f6;
+            --cor-texto: #1f2937;
+            --cor-card: #ffffff;
+            --cor-borda: #e5e7eb;
         }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            background-color: #f3f4f6;
-            color: #1f2937;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
             line-height: 1.6;
         }
+        .container { max-width: 1100px; margin: 0 auto; padding: 3rem 1rem; }
+        .main-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+        @media (min-width: 1024px) { .main-grid { grid-template-columns: 1fr 1fr; } }
 
-        /* --- Estrutura e Layout --- */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 3rem 1rem;
-        }
-
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 4rem;
-        }
-
-        @media (min-width: 1024px) {
-            .main-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        /* --- Componentes e Módulos --- */
+        /* --- Componentes (Cards, Cabeçalho, Formulário) --- */
         .card {
-            background-color: #ffffff;
+            background-color: var(--cor-card);
             padding: 2rem;
             border-radius: 1rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid var(--cor-borda);
         }
+        header { text-align: center; margin-bottom: 3rem; }
+        header h1 { font-size: 2.8rem; font-weight: 800; color: var(--cor-principal); }
+        header p { font-size: 1.1rem; color: #4b5563; max-width: 48rem; margin: 0.5rem auto 0; }
+        
+        h2 { font-size: 1.5rem; margin-bottom: 1.5rem; }
+        h3 { font-size: 1.1rem; margin-bottom: 0.5rem; color: #b45309; }
+        .instructions-section ul { padding-left: 1.5rem; }
+        .instructions-section li { margin-bottom: 0.5rem; }
 
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #f59e0b;
-            margin-bottom: 0.5rem;
-        }
-
-        header p {
-            font-size: 1.125rem;
-            color: #4b5563;
-            max-width: 48rem;
-            margin: 0 auto;
-        }
-
-        @media (min-width: 768px) {
-            header h1 {
-                font-size: 3rem;
-            }
-        }
-
-        /* --- Formulário --- */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 0.25rem;
-        }
-
+        .form-group { margin-bottom: 1.5rem; }
+        .form-label { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 0.25rem; }
         .form-input, .form-textarea {
             width: 100%;
             padding: 0.75rem;
             background-color: #f9fafb;
-            border: 1px solid #d1d5db;
+            border: 1px solid var(--cor-borda);
             border-radius: 0.5rem;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            transition: all 0.2s;
         }
-
         .form-input:focus, .form-textarea:focus {
             outline: none;
-            border-color: #f59e0b;
+            border-color: var(--cor-principal);
             box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.5);
         }
-
-        .form-file-input {
-            width: 100%;
-            font-size: 0.875rem;
-            color: #6b7280;
-        }
-
-        .form-file-input::file-selector-button {
-            background-color: #1f2937;
-            color: #ffffff;
+        input[type="file"]::file-selector-button {
+            background-color: var(--cor-texto);
+            color: white;
             border: 0;
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
@@ -118,24 +67,17 @@
             cursor: pointer;
             transition: background-color 0.2s;
         }
-
-        .form-file-input::file-selector-button:hover {
-            background-color: #000000;
-        }
-
-        #fileName {
-            font-size: 0.75rem;
-            color: #6b7280;
-            margin-top: 0.5rem;
-        }
-
-        .submit-button {
+        input[type="file"]::file-selector-button:hover { background-color: #000; }
+        #fileName { font-size: 0.75rem; color: #6b7280; margin-top: 0.5rem; }
+        
+        /* --- Botões e Spinner --- */
+        .button {
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #f59e0b;
-            color: #000000;
+            background-color: var(--cor-principal);
+            color: #000;
             font-weight: 700;
             padding: 0.75rem 1rem;
             border-radius: 0.5rem;
@@ -143,343 +85,129 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-
-        .submit-button:hover {
-            background-color: #d97706;
-        }
-
-        .submit-button:disabled {
-            background-color: #fbbf24;
-            cursor: not-allowed;
-        }
-
-        /* --- Animações e Efeitos --- */
-        .fade-in {
-            animation: fadeIn 0.8s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- Spinner de Carregamento --- */
+        .button:hover { background-color: #d97706; }
+        .button:disabled { background-color: #fbbf24; cursor: not-allowed; }
         .spinner {
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(0, 0, 0, 0.2);
-            border-left-color: #000000;
+            width: 20px; height: 20px;
+            border: 3px solid rgba(0,0,0,0.2);
+            border-left-color: #000;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         /* --- Modal de Confirmação --- */
         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; opacity: 0; visibility: hidden;
             transition: opacity 0.3s, visibility 0.3s;
         }
-        .modal-overlay.visible {
-            opacity: 1;
-            visibility: visible;
-        }
+        .modal-overlay.visible { opacity: 1; visibility: visible; }
         .modal-content {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            transform: scale(0.95);
-            transition: transform 0.3s;
+            background-color: white; padding: 2rem; border-radius: 1rem;
+            text-align: center; max-width: 400px; width: 90%;
+            transform: scale(0.95); transition: transform 0.3s;
         }
-        .modal-overlay.visible .modal-content {
-            transform: scale(1);
-        }
-        .modal-content h2 {
-            margin-bottom: 1rem;
-            color: #000;
-        }
-        .modal-content p {
-            margin-bottom: 2rem;
-            color: #4b5563;
-        }
-        .modal-buttons {
-            display: flex;
-            flex-direction: column-reverse;
-            gap: 0.75rem;
-        }
-        @media (min-width: 640px) {
-            .modal-buttons {
-                flex-direction: row;
-                justify-content: center;
-            }
-        }
-        .modal-button {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.2s;
-        }
-        .modal-button-add {
-            background-color: #f59e0b;
-            color: black;
-        }
-        .modal-button-continue {
-            background-color: #e5e7eb;
-            color: #374151;
-        }
-        .modal-button:hover {
-            transform: translateY(-2px);
-        }
+        .modal-overlay.visible .modal-content { transform: scale(1); }
+        .modal-buttons { display: flex; flex-direction: column-reverse; gap: 0.75rem; }
+        @media (min-width: 640px) { .modal-buttons { flex-direction: row; justify-content: center; } }
+        .modal-button { padding: 0.75rem 1.5rem; border: none; border-radius: 0.5rem; font-weight: 700; cursor: pointer; }
+        #addPhotoButton { background-color: var(--cor-principal); color: black; }
+        #continueButton { background-color: var(--cor-borda); color: var(--cor-texto); }
 
         /* --- Utilitários --- */
-        .hidden {
-            display: none;
-        }
-
-        h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: #000000;
-        }
-
-        h3 {
-            font-size: 1.125rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: #b45309;
-        }
-
-        .instructions-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .instructions-section ul {
-            padding-left: 1.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .instructions-section li {
-            margin-bottom: 0.5rem;
-        }
-
-        hr {
-            border: none;
-            border-top: 1px solid #e5e7eb;
-            margin: 1.5rem 0;
-        }
-
+        .hidden { display: none; }
+        .fade-in { animation: fadeIn 0.8s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div class="container">
-
         <header class="fade-in">
             <h1>Sua Jornada Criativa</h1>
-            <p>Um espaço para celebrar e compartilhar as histórias, inspirações e a arte que nos movem. Preencha o formulário e faça parte da nossa galeria de talentos.</p>
+            <p>Um espaço para celebrar e compartilhar as histórias, inspirações e a arte que nos movem.</p>
         </header>
 
         <main class="main-grid">
-
-            <div class="card fade-in" style="animation-delay: 0.2s;">
+            <div class="card fade-in" style="animation-delay: 0.1s;">
                 <h2>Conte-nos sua história</h2>
                 <form id="creativeForm">
                     <div class="form-group">
                         <label for="nome" class="form-label">Nome Completo</label>
                         <input type="text" id="nome" name="nome" required class="form-input">
                     </div>
-
                     <div class="form-group">
                         <label for="idade" class="form-label">Sua Idade</label>
                         <input type="number" id="idade" name="idade" required min="1" class="form-input">
                     </div>
-
                     <div class="form-group">
                         <label for="historia" class="form-label">Sua história criativa</label>
                         <textarea id="historia" name="historia" rows="5" required class="form-textarea" placeholder="Como você começou? O que te inspira?"></textarea>
                     </div>
-
                     <div class="form-group">
-                        <label for="foto" class="form-label">Uma foto ou arte que te representa (Opcional)</label>
-                        <input type="file" id="foto" name="foto" accept="image/*" class="form-file-input">
+                        <label for="foto" class="form-label">Uma foto ou arte (Opcional)</label>
+                        <input type="file" id="foto" name="foto" accept="image/*" class="form-input">
                         <p id="fileName"></p>
                     </div>
-
-                    <div>
-                        <button type="submit" id="submitButton" class="submit-button">
-                            <span id="buttonText">Enviar Minha História</span>
-                            <div id="loadingSpinner" class="spinner hidden"></div>
-                        </button>
-                    </div>
+                    <button type="submit" id="submitButton" class="button">
+                        <span id="buttonText">Enviar Minha História</span>
+                        <div id="loadingSpinner" class="spinner hidden"></div>
+                    </button>
                     <div id="statusMessage" style="margin-top: 1rem; text-align: center; font-size: 0.875rem;"></div>
                 </form>
             </div>
 
-            <div class="card fade-in" style="animation-delay: 0.4s;">
+            <div class="card fade-in" style="animation-delay: 0.2s;">
                 <h2>Como Funciona</h2>
                 <div class="instructions-section">
                     <h3>Instruções de Preenchimento</h3>
                     <ul>
-                        <li><b>Nome Completo:</b> Seu nome para que possamos creditá-lo.</li>
-                        <li><b>Sua Idade:</b> Apenas números são permitidos neste campo.</li>
-                        <li><b>Sua história criativa:</b> Um campo de texto livre para você se expressar.</li>
-                        <li><b>Sua foto ou arte:</b> O envio de imagem é opcional, mas enriquece o seu registro!</li>
+                        <li><b>Nome, Idade e História</b> são campos obrigatórios.</li>
+                        <li>O envio de uma <b>imagem é opcional</b>, mas recomendado para enriquecer seu registro!</li>
+                        <li>Após o envio, os dados aparecerão na nossa Planilha Google.</li>
                     </ul>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Estrutura -->
+    <!-- Estrutura do Modal -->
     <div id="photoModal" class="modal-overlay">
         <div class="modal-content">
             <h2>Que tal uma foto?</h2>
-            <p>Seria legal ter uma imagem para registrar sua jornada. Deseja adicionar uma foto ou continuar mesmo assim?</p>
+            <p>Seria ótimo ter uma imagem para registrar sua jornada. Deseja adicionar uma ou continuar mesmo assim?</p>
             <div class="modal-buttons">
-                <button id="continueButton" class="modal-button modal-button-continue">Continuar sem Foto</button>
-                <button id="addPhotoButton" class="modal-button modal-button-add">Adicionar Foto</button>
+                <button id="continueButton" class="modal-button">Continuar sem Foto</button>
+                <button id="addPhotoButton" class="modal-button">Adicionar Foto</button>
             </div>
         </div>
     </div>
 
-
     <script>
-        // --- INÍCIO DA CONFIGURAÇÃO ---
-        // A URL do App Script.
-        const googleAppScriptUrl = 'https://script.google.com/macros/s/AKfycbz2-UBeNNlcP9NBfvqRDEdo5zmYHxXJu5137ZlPrMZCT4YJVMK38bYlCNQK5h5j1ymvKQ/exec';
-        // --- FIM DA CONFIGURAÇÃO ---
-
         document.addEventListener('DOMContentLoaded', () => {
+            const googleAppScriptUrl = 'https://script.google.com/macros/s/AKfycbz2-UBeNNlcP9NBfvqRDEdo5zmYHxXJu5137ZlPrMZCT4YJVMK38bYlCNQK5h5j1ymvKQ/exec';
+            
             const form = document.getElementById('creativeForm');
             const submitButton = document.getElementById('submitButton');
-            const buttonText = document.getElementById('buttonText');
-            const loadingSpinner = document.getElementById('loadingSpinner');
-            const statusMessage = document.getElementById('statusMessage');
             const fileInput = document.getElementById('foto');
-            const fileNameDisplay = document.getElementById('fileName');
-
-            // Elementos do Modal
             const photoModal = document.getElementById('photoModal');
-            const continueButton = document.getElementById('continueButton');
-            const addPhotoButton = document.getElementById('addPhotoButton');
 
-            fileInput.addEventListener('change', () => {
-                if (fileInput.files.length > 0) {
-                    fileNameDisplay.textContent = `Arquivo selecionado: ${fileInput.files[0].name}`;
-                } else {
-                    fileNameDisplay.textContent = '';
-                }
-            });
-
-            // Lógica de submissão principal
-            const proceedWithSubmission = async () => {
-                // Esconde o modal caso ele esteja visível
-                photoModal.classList.remove('visible');
-
-                if (!googleAppScriptUrl) {
-                    showStatus('A URL do Google Apps Script não está configurada.', 'error');
-                    return;
-                }
-
-                setLoading(true);
-
-                try {
-                    const file = fileInput.files[0];
-                    let fotoBase64 = '';
-                    if (file) {
-                        fotoBase64 = await toBase64(file);
-                    }
-
-                    const formData = new FormData(form);
-                    const data = {
-                        nome: formData.get('nome'),
-                        idade: formData.get('idade'),
-                        historia: formData.get('historia'),
-                        fotoBase64: fotoBase64,
-                        fotoNome: file ? file.name : ''
-                    };
-
-                    const response = await fetch(googleAppScriptUrl, {
-                        method: 'POST',
-                        redirect: "follow",
-                        body: JSON.stringify(data),
-                        headers: {
-                            "Content-Type": "text/plain;charset=utf-8",
-                        },
-                    });
-
-                    const result = await response.json();
-
-                    if (result.status === 'success') {
-                        showStatus('Sua história foi enviada com sucesso! Obrigado por compartilhar.', 'success');
-                        form.reset();
-                        fileNameDisplay.textContent = '';
-                    } else {
-                        throw new Error(result.message);
-                    }
-
-                } catch (error) {
-                    console.error('Erro ao enviar:', error);
-                    showStatus(`Erro ao enviar: ${error.message}`, 'error');
-                } finally {
-                    setLoading(false);
-                }
+            const showStatus = (message, isError = false) => {
+                const statusEl = document.getElementById('statusMessage');
+                statusEl.textContent = message;
+                statusEl.style.color = isError ? '#dc2626' : '#16a34a';
+                setTimeout(() => statusEl.textContent = '', 8000);
             };
 
-            // Evento de submit do formulário
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
+            const setLoading = (isLoading) => {
+                submitButton.disabled = isLoading;
+                document.getElementById('buttonText').classList.toggle('hidden', isLoading);
+                document.getElementById('loadingSpinner').classList.toggle('hidden', !isLoading);
+            };
 
-                // Validação manual dos campos obrigatórios
-                const nome = document.getElementById('nome').value.trim();
-                const idade = document.getElementById('idade').value.trim();
-                const historia = document.getElementById('historia').value.trim();
-
-                if (nome === '' || idade === '' || historia === '') {
-                    showStatus('Por favor, preencha todos os campos obrigatórios.', 'error');
-                    return;
-                }
-
-                if (fileInput.files.length === 0) {
-                    // Se não houver foto, mostra o modal
-                    photoModal.classList.add('visible');
-                } else {
-                    // Se houver foto, envia diretamente
-                    proceedWithSubmission();
-                }
-            });
-
-            // Eventos dos botões do modal
-            addPhotoButton.addEventListener('click', () => {
-                photoModal.classList.remove('visible');
-                fileInput.click(); // Abre a janela de seleção de arquivo
-            });
-
-            continueButton.addEventListener('click', () => {
-                // Apenas chama a função de envio, que já esconde o modal.
-                proceedWithSubmission();
-            });
-
-
-            // Funções auxiliares
             const toBase64 = file => new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
@@ -487,24 +215,68 @@
                 reader.onerror = error => reject(error);
             });
 
-            function setLoading(isLoading) {
-                submitButton.disabled = isLoading;
-                if (isLoading) {
-                    buttonText.classList.add('hidden');
-                    loadingSpinner.classList.remove('hidden');
-                } else {
-                    buttonText.classList.remove('hidden');
-                    loadingSpinner.classList.add('hidden');
-                }
-            }
+            const submitData = async () => {
+                photoModal.classList.remove('visible');
+                setLoading(true);
 
-            function showStatus(message, type) {
-                statusMessage.textContent = message;
-                statusMessage.style.color = type === 'success' ? '#16a34a' : '#dc2626';
-                setTimeout(() => {
-                    statusMessage.textContent = '';
-                }, 8000);
-            }
+                try {
+                    const file = fileInput.files[0];
+                    const formData = new FormData(form);
+                    const data = {
+                        nome: formData.get('nome'),
+                        idade: formData.get('idade'),
+                        historia: formData.get('historia'),
+                        fotoBase64: file ? await toBase64(file) : '',
+                        fotoNome: file ? file.name : ''
+                    };
+
+                    const response = await fetch(googleAppScriptUrl, {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    });
+
+                    const result = await response.json();
+                    if (result.status !== 'success') throw new Error(result.message);
+
+                    showStatus('Sua história foi enviada com sucesso!');
+                    form.reset();
+                    document.getElementById('fileName').textContent = '';
+                } catch (error) {
+                    showStatus(`Erro ao enviar: ${error.message}`, true);
+                    console.error('Erro ao enviar:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const requiredFields = ['nome', 'idade', 'historia'];
+                const isInvalid = requiredFields.some(id => document.getElementById(id).value.trim() === '');
+                
+                if (isInvalid) {
+                    return showStatus('Por favor, preencha todos os campos obrigatórios.', true);
+                }
+                
+                if (fileInput.files.length === 0) {
+                    photoModal.classList.add('visible');
+                } else {
+                    submitData();
+                }
+            });
+
+            document.getElementById('addPhotoButton').addEventListener('click', () => {
+                photoModal.classList.remove('visible');
+                fileInput.click();
+            });
+            
+            document.getElementById('continueButton').addEventListener('click', submitData);
+            
+            fileInput.addEventListener('change', () => {
+                const fileNameEl = document.getElementById('fileName');
+                fileNameEl.textContent = fileInput.files.length > 0 ? `Arquivo: ${fileInput.files[0].name}` : '';
+            });
         });
     </script>
 </body>
